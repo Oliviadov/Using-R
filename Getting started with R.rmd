@@ -1,0 +1,195 @@
+R is a programming language and software environment specifically designed for statistical computing and graphics. It is widely used by statisticians, 
+data analysts, and data scientists for data analysis, visualization, and developing statistical software. 
+To start up with R, first, downloaded R(from http://www.r-project.org/) and install it on your computer. Then download RStudio from http://www.rstudio.com/ and install. 
+To get an idea of ​​some basic R commands, we will run in RStudio the examples from https://d31kydh6n6r5j5.cloudfront.net/uploads/sites/66/2019/04/RStart.pdf and 
+https://d31kydh6n6r5j5.cloudfront.net/uploads/sites/66/2019/04/RStart.pdf
+# Simple arithmétic
+> 4*9
+[1] 36
+> 3+2*(8
++ -4)
+[1] 11
+> # Create a sequence incrementing by 1
+> 20:30
+ [1] 20 21 22 23 24 25 26 27 28 29 30
+> # Create a sequence decrementing by 1
+> 2.5 : -3.5
+[1]  2.5  1.5  0.5 -0.5 -1.5 -2.5 -3.5
+> # Create an object and assign it the values 1, 2, 3, 4, 5.
+> dog <- 1:5
+> dog
+[1] 1 2 3 4 5
+> dog+10
+[1] 11 12 13 14 15
+> 3*dog
+[1]  3  6  9 12 15
+> # Importing a data set 
+> States03 <- read.csv("https://apps.carleton.edu/curricular/math/assets/States03.csv")
+> View(States03)
+> # To check the size (dimension) of the data frame, type
+> dim(States03)
+[1] 50 24
+> # there are 50 rows and 24 columns
+> #Tables, bar charts and histograms
+> head(States03$DeathPenalty)
+[1] "Yes" "No"  "Yes" "Yes" "Yes" "Yes"
+> #The $ operator in R is used to extract a specific column from a data frame. In this case, it extracts the DeathPenalty column from the States03 data frame.
+> #head() returns the first few elements of its argument. By default, head() returns the first 6 elements, but you can specify a different number if needed.
+> data.class(States03$DeathPenalty)
+[1] "character"
+> data.class(States03$DeathPenalty)
+[1] "character"
+> data.class(States03$Region)
+[1] "character"
+> data.class(States03$Deaths)
+[1] "numeric"
+> data.class(States03$State)
+[1] "character"
+> table(States03$DeathPenalty)
+
+ No Yes 
+ 12  38 
+> table(States03$Region)
+
+  Midwest Northeast     South      West 
+       12        11        14        13 
+
+> #The table() function create a table summarizing how many times each level of a variable appears in the dataframe.
+> # visualizing the distribution of a factorial variable and creating a bar graph
+> barplot(table(States03$DeathPenalty))
+> # Comparison of two categorical variables
+> table(States03$Region, States03$DeathPenalty)
+           
+            No Yes
+  Midwest    5   7
+  Northeast  4   7
+  South      1  13
+  West       2  11
+> barplot(table(States03$Region, States03$DeathPenalty))
+> # To see the distribution of a numeric variable, create a histogram of the populations in the 50 states.
+> Pop <- States03$Pop
+> Pop
+ [1]  4500.752   648.818  5580.811  2725.714 35484.453  4550.688  3483.372   817.491 17019.068  8684.715  1257.608
+[12]  1366.332 12653.544  6195.643  2944.062  2723.507  4117.827  4496.334  1305.728  5508.909  6433.422 10079.985
+[23]  5059.375  2881.281  5704.484   917.621  1739.291  2241.154  1287.687  8638.396  1874.614 19190.115  8407.248
+[34]   633.837 11435.798  3511.532  3559.596 12365.455  1076.164  4147.152   764.309  5841.748 22118.509  2351.467
+[45]   619.107  7386.330  6131.445  1810.354  5472.299   501.242
+> hist(States03$Pop) # To see the distribution of a numeric variable, create a histogram of the populations in the
+> 50 states
+Erreur : symbole inattendu dans "50 states"
+> hist(States03$Pop)
+> #Numeric Summaries
+> # Mean of a variable
+> mean(Pop)
+[1] 5804.928
+> #Median of a variable
+> median(Pop)
+[1] 4132.489
+> #  Range, maximum and minimum of a variable
+> range(Pop); max(Pop); min(Pop)
+[1]   501.242 35484.453
+[1] 35484.45
+[1] 501.242
+> # To find which observation corresponds to the one with the highest population
+> which(Pop == 35484.453)
+[1] 5
+> # Here the highest population is in California
+> # To find the sample variance or the sample standard deviation
+> var(Pop)
+[1] 41619677
+> sd(Pop)
+[1] 6451.331
+> #To find the quartiles
+> quantile(Pop)
+       0%       25%       50%       75%      100% 
+  501.242  1757.057  4132.489  6373.977 35484.453 
+> # To find the mean population by region
+> tapply(Pop, States03$Region, mean)
+  Midwest Northeast     South      West 
+ 5450.511  5520.531  6974.897  5112.758 
+> # To find the median violent crime rate grouped by whether or not a state has the death penalty
+> tapply(States03$ViolentCrime, States03$DeathPenalty, median)
+    No    Yes 
+264.75 413.15 
+> # Boxplots
+> #Boxplots give a visualization of the 5-number summary of a variable
+> boxplot(Pop)
+> boxplot(Pop ~ Region, data = States03) #Population grouped by region
+> # Misc. Remarks
+• Functions in R are called by typing their name followed by arguments surrounded by
+parentheses: ex. hist(Pop). Typing a function name without parentheses will give
+the code for the function.
+> sd
+• We saw earlier that we can assign names to data (we created a vector called dog.)
+Names can be any length, must start with a letter, and may contain letters or numbers:
+> fish25 <- 10:35
+> fish25
+[1] 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+In R, certain expressions or function/variable names are reserved, meaning they are used by the language itself for specific operations. 
+Therefore, it is important to be careful when choosing variable or function names to avoid using reserved names, as this can lead to errors or unexpected program behavior.
+That is why names such as "cat", "c", "t", "T", "F" are considered reserved in R. 
+For example, "cat" is used to print text to the console, "c" is used to concatenate vectors, "t" to transpose matrices, 
+"T" to generate prime numbers in Haskell (in the "primes" package), and "F" to represent the logical value "False".
+If you use one of these reserved names to name a variable or function, it can lead to unexpected behavior or errors in your R code. 
+It is therefore recommended to use more descriptive and specific variable and function names for your program.
+To be safe, before making an assignment, type the name:
+# For instance:
+> whale
+[1] Problem: Object "whale" not found # So we can use whale!
+> whale <- 200
+> objects() 
+[1] "dog"      "fish25"   "Pop"      "States03" "whale" 
+
+# The objects() function in R, also known as ls(), is used to list the objects currently present in the workspace environment. 
+This includes all variables, functions, and other types of objects you have created or loaded in your R session.
+# objects() or ls(): Lists all objects present in the current workspace environment.
+# objects(envir = ...): Lists objects in a specific environment.
+# objects(pattern = ...): Lists objects whose names match a specific pattern.
+
+> rm(whale) # The rm() function in R is used to remove objects from the workspace
+> objects()
+[1] "dog"      "fish25"   "Pop"      "States03"
+
+# Space-insensitive
+In general, R is space-insensitive. But, the assignment operator must not have spaces. <- is different from < -
+For instance,
+> 3 +4
+[1] 7
+> 3+ 4
+[1] 7
+> whale < - 200 # This compares `whale` to `-200`
+[1] FALSE
+> whale <- 200 # This assigns the value 200 to `whale`
+[1] 200
+# To determine the working directory of a R session tape:
+> getwd()
+[1] "C:/Users/bonhe/OneDrive/Documents/Tutoriol week 0" # The exact path will depend on your computer configuration
+# To quit, type:
+> q()
+You will be given an option to Save the workspace image
+[Save workspace image to /RProjects/.RData? [y/n/c]: ]
+If you select Yes, then all objects created in this session are saved in your working
+directory so that the next time you start up R, these objects will still be available.
+You will not have to re-import States03, for instance.
+#Vectors in R
+The basic data object in R is the vector. Even scalars are vectors of length 1.
+There are several ways to create vectors.
+The (:) operator creates sequences incrementing/decrementing by 1.
+The seq() function creates sequences also.
+> seq(0,3,by = .2)
+ [1] 0.0 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4 2.6 2.8 3.0
+> seq(0,3,length = 15)
+ [1] 0.0000000 0.2142857 0.4285714 0.6428571 0.8571429 1.0714286 1.2857143 1.5000000 1.7142857 1.9285714 2.1428571
+[12] 2.3571429 2.5714286 2.7857143 3.0000000
+# To create vectors with no particular pattern, use the c() function (c for combine).
+> c(1, 4, 8, 2, 9)
+[1] 1 4 8 2 9
+> x <- c(2,0,-4)
+> x
+[1]  2  0 -4
+> c(x, 0:5, x)
+ [1]  2  0 -4  0  1  2  3  4  5  2  0 -4
+# For longer vectors, use scan().
+
+
+
